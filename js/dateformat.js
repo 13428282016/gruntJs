@@ -25,9 +25,9 @@
                 diff < 30 && '刚刚' ||
                 diff < 60 && (diff + '秒前' )||
                 diff < 120 && ('1分' + ((diff == 60) ?'钟前' :diff-60 + '秒前' ))||
-                diff < 3600 && Math.floor(diff / 60) + '分钟前' ||
-                diff < 86400 && Math.floor(diff / 3600) + '小时前'
-            ) || day_diff + '天前';
+                diff < 3600 && (Math.floor(diff / 60) + '分钟前' )||
+                diff < 86400 &&( Math.floor(diff / 3600) + '小时前')
+            ) ||(day_diff + '天前');
 
 
     }
