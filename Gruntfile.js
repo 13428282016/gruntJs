@@ -21,7 +21,7 @@ module.exports = function(grunt) {
             },
             lightblog: {
                 src: [
-                    "js/test.js",
+                    "js/dateformat.js",
                     "js/test2.js"
 
                 ],
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         },
 
 
-        //压缩js文件
+        //压缩js文件,w文件内的函数需要特定的形式+function($){}(Jquey) 否则会被忽略
         uglify: {
             options: {
                 compress: {
@@ -47,38 +47,26 @@ module.exports = function(grunt) {
                     src: "<%=concat.lightblog.dest%>"
                     ,
                     dest:'dest/js/<%=pkg.name%>.min.js'
-                },
-            bootstrap:
-            {
-                src:"dest/js/bootstrap.js",
-                dest:'dest/js/bootstrap.min.js'
-            },
-            test:{
+                }
 
-                    src:"dest/js/test.js",
-                    dest:'dest/js/test.min.js'
-
-
-            }
 
 
         },
         //单元测试
         qunit:
         {
-            all:{
-                 options:{
-                     //qunit需要phantomjs提供单元测试支持
-                     inject:'node_modules/grunt-contrib-qunit/phantomjs/bridge.js',
-                     //当单元测试出错或者没有单元测试时是否继续运行执行下一个任务
-                     force:true,
-                     //除了files指定的那些测试文件.还可以指定需要测试的url
-                     urls:[
-                         "http://localhost:8000/index.html"
-                     ]
-                 },
-                files:'js/tests/*.html'
-            }
+            options:{
+                //qunit需要phantomjs提供单元测试支持
+                inject:'node_modules/grunt-contrib-qunit/phantomjs/bridge.js',
+                //当单元测试出错或者没有单元测试时是否继续运行执行下一个任务
+                force:true,
+                //除了files指定的那些测试文件.还可以指定需要测试的url
+                urls:[
+                    "http://localhost:8000/index.html"
+                ]
+            },
+            all: ['js/tests/**/*.html']
+
         },
         //配置用于单元测试的服务器
         connect:{

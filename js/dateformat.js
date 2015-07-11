@@ -1,8 +1,3 @@
-/*!
-* Light Blog v0.0.1 (http://wmj.wyuol.com)
-* Copyright 2015-2015 MingJie Wang 
-* Licensed under the MIT license
-*/
 /**
  * Created by wmj on 15-7-10.
  */
@@ -40,12 +35,3 @@
 
 
 }(window, jQuery)
-/**
- * Created by wmj on 15-7-10.
- */
-
-
-+function()
-{
-    alert('test2');
-}

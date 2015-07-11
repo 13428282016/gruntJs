@@ -3,8 +3,18 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title></title>
+    <!-- jQuery -->
+    <script src="vendor/jquery.min.js"></script>
+    <script src="vendor/qunit.js"></script>
+    <link href="vendor/qunit.css" rel="stylesheet">
 </head>
 <body>
+<script>
+    QUnit.test('test',function(assert){
+        assert.ok(1=='1','passed!')
+
+    })
+</script>
 
 
 <div id="qunit-fixture">
