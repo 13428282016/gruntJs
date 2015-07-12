@@ -4,15 +4,14 @@
 $(function(){
 
 
-    console.log(DateFormat.prettyDate('2015/07/11 20:55:20','2015/07/11 20:55:10'));
-    //test第一个参数指当用例出错时会打印输出信息时显示在错误信息头部,方便却分时那个错误
+    //test第一个参数本次测试名,方便却分时那个错误
     QUnit.test('DateFormat.prettyDate testing',function(assert){
 
 
 
-        function date(now,time,expected)
+        function date(now,time,expected,msg)
         {
-            assert.equal(DateFormat.prettyDate(now,time),expected);
+            assert.equal(DateFormat.prettyDate(now,time),expected,msg);
           
         }
        date('2015/07/11 20:55:20','2015/07/11 20:55:10','刚刚');
@@ -38,7 +37,7 @@ $(function(){
             done2();
         },500)
     });
-    //深度比较
+    //深度比较两个对象
     QUnit.test('deepEqual test',function(assert){
 
         var obj={
@@ -49,7 +48,7 @@ $(function(){
         };
         assert.deepEqual(obj,{a:'a',b:{b1:'b1'}},'deepEqual ok');
     });
-    //指定函数体内断言函数assert.method的调用次数
+    //指定函数体内断言函数assert.method的调用次数,如果调用次数不一致则报错
     QUnit.test( "expect test", function( assert ) {
         assert.expect( 3 );
 
@@ -155,6 +154,124 @@ $(function(){
             },
             "raised error instance satisfies the callback function"
         );
+    });
+    //Register a callback to fire whenever the test suite begins.
+    //details记录每次测试的信息
+    QUnit.begin(function(details)
+    {
+
+        console.log(details);
+    });
+
+    // Register a callback to fire whenever the test suite ends.(所有test完成的时后)
+    QUnit.done(function( details ) {
+        console.log( "Total: ", details.total, " Failed: ", details.failed, " Passed: ", details.passed, " Runtime: ", details.runtime );
+    });
+   // Description: Register a callback to fire whenever an assertion completes.
+
+    QUnit.log(function( details ) {
+        if ( details.result ) {
+            return;
+        }
+        var loc = details.module + ": " + details.name + ": ",
+            output = "FAILED: " + loc + ( details.message ? details.message + ", " : "" );
+
+        if ( details.actual ) {
+            output += "expected: " + details.expected + ", actual: " + details.actual;
+        }
+        if ( details.source ) {
+            output += ", " + details.source;
+        }
+        console.log( output );
+    });
+    //Register a callback to fire whenever a module begins.
+    QUnit.moduleStart(function( details ) {
+        console.log( "Now running: ", details.name );
+    });
+
+    //Register a callback to fire whenever a module ends.
+
+    QUnit.moduleDone(function( details ) {
+        console.log( "Finished running: ", details.name, "Failed/total: ", details.failed, details.total );
+    });
+    //Register a callback to fire whenever a test ends.(单个 test完成的时候)
+
+
+    QUnit.testDone(function( details ) {
+        console.log( "Finished running: ", details.module, details.name, "Failed/total: ", details.failed, details.total, details.duration );
+    });
+    console.log(
+
+        //相当于php的var_dump()
+        QUnit.dump.parse({a:1,b:2})
+    )
+    //相当于$.extends()
+    QUnit.test( "QUnit.extend", function( assert ) {
+        var base = {
+            a: 1,
+            b: 2,
+            z: 3
+        };
+        QUnit.extend( base, {
+            b: 2.5,
+            c: 3,
+            z: undefined
+        } );
+
+        assert.equal( base.a, 1, "Unspecified values are not modified" );
+        assert.equal( base.b, 2.5, "Existing values are updated" );
+        assert.equal( base.c, 3, "New values are defined" );
+        assert.ok( !( "z" in base ), "Values specified as `undefined` are removed" );
+    });
+
+   // DEPRECATION Note: beforeEach and afterEach were previously named setup and teardown, which still exist and will be removed in QUnit 2.0.0.
+   //     Examples:
+  //  Example: Use the QUnit.module() function to group tests together:
+
+    //使用模块对测试用例进行分组,可以在setup,和teartdown中配置tests回调函数中的this变量
+    QUnit.module( "group a" );
+    QUnit.test( "a basic test example", function( assert ) {
+        assert.ok( true, "this test is fine" );
+    });
+    QUnit.test( "a basic test example 2", function( assert ) {
+        assert.ok( true, "this test is fine" );
+    });
+
+    QUnit.module( "group b" );
+    QUnit.test( "a basic test example 3", function( assert ) {
+        assert.ok( true, "this test is fine" );
+    });
+    QUnit.test( "a basic test example 4", function(assert) {
+        assert.ok( true, "this test is fine" );
+    });
+
+   // Example: A sample for using the beforeEach and afterEach callbacks
+
+
+
+    QUnit.module( "module A", {
+        beforeEach: function() {
+            // prepare something for all following tests
+        },
+        afterEach: function() {
+            // clean up after each test
+        }
+    });
+
+   // Example: Hooks share the same context as their respective test
+
+
+    QUnit.module( "module test beforeEach ", {
+        beforeEach: function() {
+
+            this.parts = 'part';
+        }
+    });
+
+    QUnit.test( "module test beforeEach", function( assert ) {
+
+        assert.equal( 'part', "part" );
+
     });
 
 

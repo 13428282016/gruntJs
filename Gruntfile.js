@@ -3,6 +3,7 @@
 module.exports = function(grunt) {
 
     // Project configuration.
+    'use strict';
     grunt.initConfig({
         //读取pagekage.json
         pkg: grunt.file.readJSON('package.json'),
@@ -44,8 +45,7 @@ module.exports = function(grunt) {
 
             core:
                 {
-                    src: "<%=concat.lightblog.dest%>"
-                    ,
+                    src: "<%=concat.lightblog.dest%>",
                     dest:'dest/js/<%=pkg.name%>.min.js'
                 }
 
@@ -68,6 +68,22 @@ module.exports = function(grunt) {
             all: ['js/tests/**/*.html']
 
         },
+        //用于检查js代码规范和错误
+        jshint:{
+            options:{
+                //jshint的默认配置,可以时文件可以是数组
+                jshintrc:'js/.jshintrc'
+            },
+            grunt:{
+                options:{
+                    jshintrc:'./.jshintrc'
+                },
+                src:['Gruntfile.js']
+            },
+            core:{
+                src:'js/*.js'
+            }
+        },
         //配置用于单元测试的服务器
         connect:{
             server:{
@@ -76,6 +92,14 @@ module.exports = function(grunt) {
                     port:8000,
                     base:'js/tests/'
                 }
+            }
+        },
+        //监控文件变化,然后执行指定的任务
+        watch:
+        {
+            src:{
+                files:'<%=jshint.core.src%=>',
+                tasks:['jshint:core','quint','concat']
             }
         }
     });
@@ -86,7 +110,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     // 单元测试
     grunt.loadNpmTasks('grunt-contrib-qunit');
+    //测试服务器
     grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.registerTask('default', ['connect',"concat",'uglify','qunit']);
+    //代码检测
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.registerTask('default', ['connect','jshint',"concat",'jshint','uglify','qunit']);
 
 };

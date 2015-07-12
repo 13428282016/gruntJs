@@ -3,7 +3,8 @@
  */
 
 
-+function()
++function($)
 {
-    alert('test2');
-}
+    'use strict'
+    $.extend({});
+}(jQuery);

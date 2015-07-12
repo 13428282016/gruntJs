@@ -3,8 +3,9 @@
  */
 
 +function (window, $) {
+    'use strict'
     var DateFormat = function (options) {
-        this.options = $.extends({}, DateFormat.DEFAULTS, options)
+        this.options = $.extend({}, DateFormat.DEFAULTS, options)
     }
     DateFormat.VERSION = '0.0.1';
     DateFormat.DEFAULTS =
@@ -13,21 +14,21 @@
 
         var date = new Date(time || ""),
             diff = (((new Date(now || '')).getTime() - date.getTime()) / 1000),//获取时间差,以秒为单位
-            day_diff = Math.floor(diff / 86400);//获取天数差;
+            dayDiff = Math.floor(diff / 86400);//获取天数差;
         //天数大于一个月的返回空;
-        if (isNaN(day_diff) || day_diff < 0 || day_diff >= 31) {
+        if (isNaN(dayDiff) || dayDiff < 0 || dayDiff >= 31) {
             return;
         }
-        //day_diff ==0当天的,30秒前显示'秒',30秒-1分钟内显示'刚刚',1~2分钟之间,显示分钟和秒,2分钟~1小时之间,显示分,一小时~一天之间的显示小时
-        //day_diff  1~31天的显示"多少天前"
+        //dayDiff ==0当天的,30秒前显示'秒',30秒-1分钟内显示'刚刚',1~2分钟之间,显示分钟和秒,2分钟~1小时之间,显示分,一小时~一天之间的显示小时
+        //dayDiff  1~31天的显示"多少天前"
         //其他返回null
-        return day_diff == 0 && (
+        return dayDiff === 0 && (
                 diff < 30 && '刚刚' ||
                 diff < 60 && (diff + '秒前' )||
                 diff < 120 && ('1分' + ((diff == 60) ?'钟前' :diff-60 + '秒前' ))||
                 diff < 3600 && (Math.floor(diff / 60) + '分钟前' )||
                 diff < 86400 &&( Math.floor(diff / 3600) + '小时前')
-            ) ||(day_diff + '天前');
+            ) ||(dayDiff + '天前');
 
 
     }
