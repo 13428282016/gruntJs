@@ -6,5 +6,5 @@
 +function($)
 {
     'use strict'
-    $.extend({});
+    $.extend({a:1});
 }(jQuery);

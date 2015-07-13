@@ -2,7 +2,7 @@
  * Created by wmj on 15-7-10.
  */
 
-+function (window, $) {
++function (window, $ ) {
     'use strict'
     var DateFormat = function (options) {
         this.options = $.extend({}, DateFormat.DEFAULTS, options)
