@@ -120,7 +120,12 @@ module.exports = function(grunt) {
         //复制文件
         copy:
         {
-
+           jslib:{
+               expand:true,
+               cwd:'js/lib',
+               src:'*.js',
+               dest:'dist/js/lib'
+           }
         },
         //less 把less文件解析为css文件
         less:{
